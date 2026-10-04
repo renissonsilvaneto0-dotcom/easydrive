@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyDrive | Encontre seu carro</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #0f0d17;
+            color: #f5f3ff;
+        }
+
+        header {
+            width: 100%;
+            background: #15121f;
+            border-bottom: 1px solid #29233a;
+            padding: 18px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .logo span {
+            color: #8b5cf6;
+        }
+
+        nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        nav a {
+            color: #c9c3d8;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            color: #a78bfa;
+        }
+
+        .hero {
+            min-height: 500px;
+            padding: 80px 7%;
+            display: flex;
+            align-items: center;
+            background:
+                linear-gradient(90deg, #0f0d17 20%, rgba(15,13,23,.85) 48%, rgba(15,13,23,.3)),
+                url("https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1800&q=85");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 8px 14px;
+            border-radius: 20px;
+            background: #211b31;
+            border: 1px solid #4c3a70;
+            color: #c4b5fd;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            line-height: 1.08;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #8b5cf6;
+        }
+
+        .hero p {
+            color: #bbb4ca;
+            font-size: 17px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .hero-btn {
+            display: inline-block;
+            background: #8b5cf6;
+            color: white;
+            text-decoration: none;
+            padding: 14px 23px;
+            border-radius: 9px;
+            font-weight: bold;
+        }
+
+        .hero-btn:hover {
+            background: #7344d4;
+        }
+
+        .pesquisa {
+            width: 86%;
+            max-width: 1200px;
+            margin: -35px auto 60px;
+            background: #191624;
+            border: 1px solid #29233a;
+            border-radius: 15px;
+            padding: 24px;
+            position: relative;
+            z-index: 5;
+            box-shadow: 0 15px 40px rgba(0,0,0,.25);
+        }
+
+        .pesquisa h2 {
+            font-size: 20px;
+            margin-bottom: 18px;
+        }
+
+        .filtros {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto auto;
+            gap: 12px;
+        }
+
+        select,
+        button {
+            height: 46px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        select {
+            background: #11101a;
+            color: #eeeaff;
+            border: 1px solid #383049;
+            padding: 0 12px;
+            outline: none;
+        }
+
+        select:focus {
+            border-color: #8b5cf6;
+        }
+
+        .buscar {
+            border: none;
+            padding: 0 22px;
+            background: #8b5cf6;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .buscar:hover {
+            background: #7344d4;
+        }
+
+        .limpar {
+            border: 1px solid #383049;
+            padding: 0 18px;
+            background: transparent;
+            color: #c9c3d8;
+            cursor: pointer;
+        }
+
+        .limpar:hover {
+            border-color: #8b5cf6;
+            color: #c4b5fd;
+        }
+
+        .catalogo {
+            width: 86%;
+            max-width: 1400px;
+            margin: 0 auto 70px;
+        }
+
+        .titulo-secao {
+            margin-bottom: 25px;
+        }
+
+        .titulo-secao h2 {
+            font-size: 29px;
+            margin-bottom: 7px;
+        }
+
+        .titulo-secao p {
+            color: #8f879f;
+        }
+
+        #resultado {
+            color: #a78bfa;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .carros {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: #191624;
+            border: 1px solid #29233a;
+            border-radius: 13px;
+            overflow: hidden;
+            transition: .25s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #8b5cf6;
+            box-shadow: 0 12px 35px rgba(139,92,246,.12);
+        }
+
+        .card img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-info {
+            padding: 17px;
+        }
+
+        .marca {
+            color: #a78bfa;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .modelo {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .ano {
+            color: #8f879f;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .preco {
+            color: #c4b5fd;
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .detalhes {
+            width: 100%;
+            height: 42px;
+            background: #211b31;
+            border: 1px solid #8b5cf6;
+            color: #c4b5fd;
+            cursor: pointer;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .detalhes:hover {
+            background: #8b5cf6;
+            color: white;
+        }
+
+        #maisBtn {
+            display: block;
+            margin: 35px auto 0;
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #maisBtn:hover {
+            background: #7344d4;
+        }
+
+        .beneficios {
+            background: #13101c;
+            padding: 65px 7%;
+        }
+
+        .beneficios h2 {
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 35px;
+        }
+
+        .beneficios-grid {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .beneficio {
+            background: #191624;
+            border: 1px solid #29233a;
+            border-radius: 13px;
+            padding: 28px;
+            text-align: center;
+        }
+
+        .icone {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #211b31;
+            color: #a78bfa;
+            font-size: 25px;
+        }
+
+        .beneficio h3 {
+            margin-bottom: 10px;
+        }
+
+        .beneficio p {
+            color: #91899e;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        footer {
+            background: #0b0910;
+            padding: 30px 7%;
+            text-align: center;
+            color: #777080;
+            font-size: 13px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(5,4,9,.82);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.aberto {
+            display: flex;
+        }
+
+        .modal-box {
+            width: 900px;
+            max-width: 100%;
+            background: #17131f;
+            border: 1px solid #3b2d55;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 20px 70px rgba(0,0,0,.5);
+        }
+
+        .fechar {
+            position: absolute;
+            top: 15px;
+            right: 18px;
+            z-index: 5;
+            width: 38px;
+            height: 38px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(0,0,0,.55);
+            color: white;
+            font-size: 23px;
+            cursor: pointer;
+        }
+
+        .detalhe-conteudo {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+        }
+
+        .detalhe-conteudo img {
+            width: 100%;
+            height: 100%;
+            min-height: 450px;
+            object-fit: cover;
+        }
+
+        .detalhe-texto {
+            padding: 45px 35px;
+        }
+
+        .detalhe-texto .marca {
+            font-size: 15px;
+        }
+
+        .detalhe-texto h2 {
+            font-size: 35px;
+            margin: 8px 0;
+        }
+
+        .detalhe-texto .info {
+            color: #9991a8;
+            margin: 15px 0 25px;
+            line-height: 1.8;
+        }
+
+        .detalhe-preco {
+            color: #c4b5fd;
+            font-size: 29px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .comprar {
+            width: 100%;
+            height: 50px;
+            border: none;
+            border-radius: 8px;
+            background: #8b5cf6;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .comprar:hover {
+            background: #7344d4;
+        }
+
+        .sucesso-box {
+            width: 420px;
+            max-width: 100%;
+            background: #17131f;
+            border: 1px solid #49385f;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .check {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: #392b4d;
+            color: #c4b5fd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+        }
+
+        .sucesso-box h2 {
+            margin-bottom: 10px;
+        }
+
+        .sucesso-box p {
+            color: #958da0;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 1100px) {
+            .carros {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .filtros {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 800px) {
+            nav {
+                display: none;
+            }
+
+            .hero {
+                min-height: 450px;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .carros {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .beneficios-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .detalhe-conteudo {
+                grid-template-columns: 1fr;
+            }
+
+            .detalhe-conteudo img {
+                min-height: 250px;
+                max-height: 280px;
+            }
+
+            .detalhe-texto {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .hero {
+                padding: 60px 6%;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+            }
+
+            .pesquisa,
+            .catalogo {
+                width: 92%;
+            }
+
+            .filtros {
+                grid-template-columns: 1fr;
+            }
+
+            .carros {
+                grid-template-columns: 1fr;
+            }
+
+            .buscar,
+            .limpar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">Easy<span>Drive</span></div>
+
+    <nav>
+        <a href="#inicio">Início</a>
+        <a href="#carros">Carros</a>
+        <a href="#beneficios">Benefícios</a>
+    </nav>
+</header>
+
+<section class="hero" id="inicio">
+    <div class="hero-content">
+        <div class="tag">🚗 Seu próximo carro está aqui</div>
+
+        <h1>
+            Escolha seu carro
+            <span>do seu jeito.</span>
+        </h1>
+
+        <p>
+            Encontre carros de diferentes marcas, anos e preços.
+            Pesquise, veja os detalhes e escolha o veículo que combina com você.
+        </p>
+
+        <a href="#carros" class="hero-btn">Ver carros</a>
+    </div>
+</section>
+
+<section class="pesquisa">
+    <h2>Encontre seu carro</h2>
+
+    <div class="filtros">
+        <select id="marca">
+            <option value="">Todas as marcas</option>
+            <option>Fiat</option>
+            <option>Volkswagen</option>
+            <option>Chevrolet</option>
+            <option>Toyota</option>
+            <option>Honda</option>
+            <option>Hyundai</option>
+            <option>Jeep</option>
+            <option>Renault</option>
+            <option>Nissan</option>
+            <option>Ford</option>
+            <option>BYD</option>
+            <option>BMW</option>
+            <option>Audi</option>
+            <option>Mercedes-Benz</option>
+            <option>Porsche</option>
+        </select>
+
+        <select id="ano">
+            <option value="">Todos os anos</option>
+            <option value="2026">2026</option>
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+        </select>
+
+        <select id="preco">
+            <option value="">Qualquer preço</option>
+            <option value="50000">Até R$ 50 mil</option>
+            <option value="75000">Até R$ 75 mil</option>
+            <option value="100000">Até R$ 100 mil</option>
+            <option value="125000">Até R$ 125 mil</option>
+            <option value="150000">Até R$ 150 mil</option>
+            <option value="200000">Até R$ 200 mil</option>
+            <option value="300000">Até R$ 300 mil</option>
+            <option value="500000">Até R$ 500 mil</option>
+            <option value="750000">Até R$ 750 mil</option>
+            <option value="1000000">Até R$ 1 milhão</option>
+            <option value="2000000">Até R$ 2 milhões</option>
+        </select>
+
+        <button class="buscar" onclick="buscar()">BUSCAR</button>
+        <button class="limpar" onclick="limpar()">Limpar</button>
+    </div>
+</section>
+
+<section class="catalogo" id="carros">
+
+    <div class="titulo-secao">
+        <h2>Carros disponíveis</h2>
+        <p>Escolha entre vários modelos disponíveis.</p>
+        <div id="resultado"></div>
+    </div>
+
+    <div class="carros" id="listaCarros"></div>
+
+    <button id="maisBtn" onclick="carregarMais()">Carregar mais carros</button>
+
+</section>
+
+<section class="beneficios" id="beneficios">
+
+    <h2>Por que escolher a EasyDrive?</h2>
+
+    <div class="beneficios-grid">
+
+        <div class="beneficio">
+            <div class="icone">🔎</div>
+            <h3>Pesquisa fácil</h3>
+            <p>
+                Encontre seu carro usando filtros de marca, ano e preço.
+            </p>
+        </div>
+
+        <div class="beneficio">
+            <div class="icone">🚘</div>
+            <h3>Muitos modelos</h3>
+            <p>
+                Diversas marcas e modelos para você comparar.
+            </p>
+        </div>
+
+        <div class="beneficio">
+            <div class="icone">🔒</div>
+            <h3>Compra simples</h3>
+            <p>
+                Escolha o veículo, veja os detalhes e finalize sua compra.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+    <p>© 2026 EasyDrive - Projeto acadêmico</p>
+</footer>
+
+
+<div class="modal" id="modalDetalhes">
+
+    <div class="modal-box">
+
+        <button class="fechar" onclick="fecharModal()">×</button>
+
+        <div class="detalhe-conteudo">
+
+            <img id="modalImagem" src="" alt="Carro">
+
+            <div class="detalhe-texto">
+
+                <div class="marca" id="modalMarca"></div>
+
+                <h2 id="modalModelo"></h2>
+
+                <div class="info">
+                    <div>📅 Ano: <strong id="modalAno"></strong></div>
+                    <div>⚙️ Câmbio: Automático</div>
+                    <div>⛽ Combustível: Flex/Gasolina</div>
+                    <div>✓ Veículo revisado</div>
+                </div>
+
+                <div class="detalhe-preco" id="modalPreco"></div>
+
+                <button class="comprar" onclick="comprar()">
+                    COMPRAR AGORA
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="modal" id="modalSucesso">
+
+    <div class="sucesso-box">
+
+        <div class="check">✓</div>
+
+        <h2>Compra realizada!</h2>
+
+        <p id="mensagemCompra">
+            Sua compra foi registrada com sucesso.
+        </p>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const fotos = [
+        "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=900&q=80",
+        "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=900&q=80"
+    ];
+
+    let carros = [];
+    let listaAtual = [];
+    let quantidade = 12;
+    let carroSelecionado = null;
+
+
+    function adicionar(marca, modelos, preco) {
+
+        for (let ano = 2026; ano >= 2020; ano--) {
+
+            modelos.forEach((modelo, indice) => {
+
+                let desconto = 1 - ((2026 - ano) * 0.055);
+
+                carros.push({
+                    marca: marca,
+                    modelo: modelo,
+                    ano: ano,
+                    preco: Math.round((preco * desconto) / 1000) * 1000,
+                    foto: fotos[(indice + ano) % fotos.length]
+                });
+
+            });
+
+        }
+
+    }
+
+
+    adicionar("Fiat", [
+        "Mobi",
+        "Argo",
+        "Cronos",
+        "Pulse",
+        "Fastback",
+        "Strada",
+        "Toro"
+    ], 95000);
+
+    adicionar("Volkswagen", [
+        "Polo",
+        "Virtus",
+        "Nivus",
+        "T-Cross",
+        "Taos",
+        "Tiguan",
+        "Jetta",
+        "Amarok"
+    ], 120000);
+
+    adicionar("Chevrolet", [
+        "Onix",
+        "Onix Plus",
+        "Tracker",
+        "Spin",
+        "Montana",
+        "S10",
+        "Trailblazer"
+    ], 110000);
+
+    adicionar("Toyota", [
+        "Yaris",
+        "Yaris Sedan",
+        "Corolla",
+        "Corolla Cross",
+        "Hilux",
+        "SW4",
+        "RAV4"
+    ], 120000);
+
+    adicionar("Honda", [
+        "City",
+        "City Hatchback",
+        "Civic",
+        "HR-V",
+        "ZR-V",
+        "CR-V"
+    ], 135000);
+
+    adicionar("Hyundai", [
+        "HB20",
+        "HB20S",
+        "Creta",
+        "Tucson",
+        "Santa Fe"
+    ], 105000);
+
+    adicionar("Jeep", [
+        "Renegade",
+        "Compass",
+        "Commander",
+        "Gladiator"
+    ], 135000);
+
+    adicionar("Renault", [
+        "Kwid",
+        "Stepway",
+        "Kardian",
+        "Duster",
+        "Oroch"
+    ], 85000);
+
+    adicionar("Nissan", [
+        "Kicks",
+        "Versa",
+        "Sentra",
+        "Frontier"
+    ], 120000);
+
+    adicionar("Ford", [
+        "Ka",
+        "Territory",
+        "Ranger",
+        "Maverick",
+        "Bronco",
+        "Mustang"
+    ], 110000);
+
+    adicionar("BYD", [
+        "Dolphin Mini",
+        "Dolphin",
+        "Yuan Pro",
+        "Song Plus",
+        "Seal"
+    ], 120000);
+
+    adicionar("BMW", [
+        "Série 1",
+        "Série 3",
+        "Série 5",
+        "X1",
+        "X3",
+        "X5",
+        "X6",
+        "M3",
+        "M4"
+    ], 300000);
+
+    adicionar("Audi", [
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "Q3",
+        "Q5",
+        "Q7",
+        "Q8"
+    ], 260000);
+
+    adicionar("Mercedes-Benz", [
+        "A200",
+        "C180",
+        "C300",
+        "GLA",
+        "GLB",
+        "GLC",
+        "GLE"
+    ], 290000);
+
+    adicionar("Porsche", [
+        "718 Cayman",
+        "718 Boxster",
+        "911 Carrera",
+        "Cayenne",
+        "Macan",
+        "Panamera"
+    ], 650000);
+
+
+    function dinheiro(valor) {
+
+        return valor.toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+
+    }
+
+
+    function mostrarCarros(lista) {
+
+        const area = document.getElementById("listaCarros");
+
+        area.innerHTML = "";
+
+        const limite = Math.min(quantidade, lista.length);
+
+        for (let i = 0; i < limite; i++) {
+
+            const carro = lista[i];
+
+            area.innerHTML += `
+                <div class="card">
+
+                    <img src="${carro.foto}" alt="${carro.marca} ${carro.modelo}">
+
+                    <div class="card-info">
+
+                        <div class="marca">${carro.marca}</div>
+
+                        <div class="modelo">${carro.modelo}</div>
+
+                        <div class="ano">Ano ${carro.ano}</div>
+
+                        <div class="preco">${dinheiro(carro.preco)}</div>
+
+                        <button class="detalhes" onclick="verDetalhes(${i})">
+                            Ver detalhes
+                        </button>
+
+                    </div>
+
+                </div>
+            `;
+        }
+
+        document.getElementById("resultado").textContent =
+            lista.length + " carros encontrados";
+
+        const botao = document.getElementById("maisBtn");
+
+        if (quantidade >= lista.length) {
+            botao.style.display = "none";
+        } else {
+            botao.style.display = "block";
+        }
+
+    }
+
+
+    function buscar() {
+
+        const marca = document.getElementById("marca").value;
+        const ano = document.getElementById("ano").value;
+        const preco = document.getElementById("preco").value;
+
+        listaAtual = carros.filter(carro => {
+
+            const mesmaMarca =
+                marca === "" || carro.marca === marca;
+
+            const mesmoAno =
+                ano === "" || carro.ano == ano;
+
+            const mesmoPreco =
+                preco === "" || carro.preco <= Number(preco);
+
+            return mesmaMarca && mesmoAno && mesmoPreco;
+
+        });
+
+        quantidade = 12;
+
+        mostrarCarros(listaAtual);
+
+        document.getElementById("carros").scrollIntoView({
+            behavior: "smooth"
+        });
+
+    }
+
+
+    function limpar() {
+
+        document.getElementById("marca").value = "";
+        document.getElementById("ano").value = "";
+        document.getElementById("preco").value = "";
+
+        listaAtual = [...carros];
+
+        quantidade = 12;
+
+        mostrarCarros(listaAtual);
+
+    }
+
+
+    function carregarMais() {
+
+        quantidade += 12;
+
+        mostrarCarros(listaAtual);
+
+    }
+
+
+    function verDetalhes(indice) {
+
+        carroSelecionado = listaAtual[indice];
+
+        document.getElementById("modalImagem").src =
+            carroSelecionado.foto;
+
+        document.getElementById("modalMarca").textContent =
+            carroSelecionado.marca;
+
+        document.getElementById("modalModelo").textContent =
+            carroSelecionado.modelo;
+
+        document.getElementById("modalAno").textContent =
+            carroSelecionado.ano;
+
+        document.getElementById("modalPreco").textContent =
+            dinheiro(carroSelecionado.preco);
+
+        document.getElementById("modalDetalhes")
+            .classList.add("aberto");
+
+    }
+
+
+    function fecharModal() {
+
+        document.getElementById("modalDetalhes")
+            .classList.remove("aberto");
+
+    }
+
+
+    function comprar() {
+
+        if (!carroSelecionado) return;
+
+        document.getElementById("modalDetalhes")
+            .classList.remove("aberto");
+
+        document.getElementById("mensagemCompra").textContent =
+            "A compra do " +
+            carroSelecionado.marca + " " +
+            carroSelecionado.modelo +
+            " foi registrada com sucesso.";
+
+        document.getElementById("modalSucesso")
+            .classList.add("aberto");
+
+        setTimeout(() => {
+
+            document.getElementById("modalSucesso")
+                .classList.remove("aberto");
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }, 3000);
+
+    }
+
+
+    document.getElementById("modalDetalhes").addEventListener("click", function(e) {
+
+        if (e.target === this) {
+            fecharModal();
+        }
+
+    });
+
+
+    document.getElementById("modalSucesso").addEventListener("click", function(e) {
+
+        if (e.target === this) {
+            this.classList.remove("aberto");
+        }
+
+    });
+
+
+    document.addEventListener("keydown", function(e) {
+
+        if (e.key === "Escape") {
+            fecharModal();
+
+            document.getElementById("modalSucesso")
+                .classList.remove("aberto");
+        }
+
+    });
+
+
+    listaAtual = [...carros];
+
+    mostrarCarros(listaAtual);
+
+</script>
+
+</body>
+</html>
